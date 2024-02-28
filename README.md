@@ -73,18 +73,9 @@ if [ -f $FOAM_FOAMUT/tests/adaptiveFvMeshTests/log.wmake ]; then cat $FOAM_FOAMU
 
 **Note:** The WENOExt dockerfile will download and install WENOExt but not execute tests. This is due to one multicore test which requires at least 8 mpi slots**
 
-To build the docker container execute:
-```
-docker build --build-arg OPENFOAM_VERSION=2206 -f weno.dockerfile -t of-unit-testing-paper:weno-2206
-```
-or, you can use a pre-built image from the Github registry:
-```bash
-docker pull ghcr.io/foamscience/of-unit-testing-paper:weno-2206
-```
-
 Start the docker container in an interactive session:
 ```bash
-docker run -it --rm of-unit-testing-paper:weno-2206 bash
+docker run -it --rm ghcr.io/foamscience/of-unit-testing-paper:weno-2206 bash
 ```
 Inside the container navigate to the WENOExt tests folder and execute the runTest command
 ```

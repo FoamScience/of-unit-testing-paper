@@ -9,7 +9,7 @@ in Docker swarms and communicate through SSH and MPI.
 | [base.dockerfile](docker/base.dockerfile)     | Base image for OpenFOAM and MPI. |
 | [foamut.dockerfile](docker/foamut.dockerfile) | Image for [foamUT](https://github.com/FoamScience/foamUT) and [blastAMR](https://github.com/STFS-TUDa/blastAMR).|
 | [obr.dockerfile](docker/obr.dockerfile)       | Image for [OBR](). |
-| [weno.dockerfile](docker/weno.dockerfile)     | Image for [WENOExt](). |
+| [weno.dockerfile](docker/weno.dockerfile)     | Image for [WENOExt](https://github.com/WENO-OF/WENOEXT). |
 
 To build the base image (inside the [docker](docker) folder):
 ```bash
@@ -24,6 +24,7 @@ The same applies to the other images; instead of `base`, use either `foamut`, `o
 Here is a list of published images you can immediately use:
 - [of-unit-testing-paper:base-2206](https://github.com/FoamScience/of-unit-testing-paper/pkgs/container/of-unit-testing-paper/184606004?tag=base-2206)
 - [of-unit-testing-paper:foamut-2206](https://github.com/FoamScience/of-unit-testing-paper/pkgs/container/of-unit-testing-paper/184608592?tag=foamut-2206)
+- [of-unit-testing-paper:weno-2206](https://github.com/FoamScience/of-unit-testing-paper/pkgs/container/of-unit-testing-paper/184671721?tag=weno-2206)
 
 ## General Notes on the images
 
@@ -68,8 +69,6 @@ rm -rf tests/exampleTests
 if [ -f $FOAM_FOAMUT/tests/adaptiveFvMeshTests/log.wmake ]; then cat $FOAM_FOAMUT/tests/adaptiveFvMeshTests/log.wmake; fi 
 ```
 
-
-
 ### WENOExt
 
 **Note:** The WENOExt dockerfile will download and install WENOExt but not execute tests. This is due to one multicore test which requires at least 8 mpi slots**
@@ -78,7 +77,10 @@ To build the docker container execute:
 ```
 docker build --build-arg OPENFOAM_VERSION=2206 -f weno.dockerfile -t of-unit-testing-paper:weno-2206
 ```
-
+or, you can use a pre-built image from the Github registry:
+```bash
+docker pull ghcr.io/foamscience/of-unit-testing-paper:weno-2206
+```
 
 Start the docker container in an interactive session:
 ```bash
@@ -86,13 +88,10 @@ docker run -it --rm of-unit-testing-paper:weno-2206 bash
 ```
 Inside the container navigate to the WENOExt tests folder and execute the runTest command
 ```
-cd /home/openfoam/WENOExt/tests && ./runTest
+(openfoam@container)> cd /home/openfoam/WENOExt/tests && ./runTest
 ```
 This will run the most important unit and integration tests of WENOExt. There is also the option 
 to run all tests with: 
 ```
-cd /home/openfoam/WENOExt/tests && ./runTest --runAll
+(openfoam@container)> cd /home/openfoam/WENOExt/tests && ./runTest --runAll
 ```
-
-
-

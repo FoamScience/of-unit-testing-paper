@@ -13,11 +13,11 @@ in Docker swarms and communicate through SSH and MPI.
 
 To build the base image (inside the [docker](docker) folder):
 ```bash
-docker build --build-arg OPENFOAM_VERSION=2206 -f base.dockerfile -t of-unit-testing-paper:2206-base .
+docker build --build-arg OPENFOAM_VERSION=2206 -f base.dockerfile -t of-unit-testing-paper:base-2206 .
 ```
 or, you can pull from Github registry:
 ```bash
-docker pull ghcr.io/foamscience/of-unit-testing-paper:2206-base
+docker pull ghcr.io/foamscience/of-unit-testing-paper:base-2206
 ```
 The same applies to the other images; instead of `base`, use either `foamut`, `obr`, or `weno`.
 
@@ -27,9 +27,9 @@ Here is a list of published images you can immediately use:
 
 ## General Notes on the images
 
-- By default, containers will start an SSH process to stay alive. If you a shell instead, you can:
+- By default, containers will start an SSH process to stay alive. If you prefer a shell instead, you can use:
     ```bash
-    docker run -it --rm ghcr.io/foamscience/of-unit-testing-paper:2206-base bash
+    docker run -it --rm ghcr.io/foamscience/of-unit-testing-paper:base-2206 bash
     ```
 - You will find OpenFOAM installed in `/usr/lib/openfoam` and the specific paper software piece in
   the home folder of the `openfoam` user.
@@ -67,3 +67,32 @@ rm -rf tests/exampleTests
 ./Alltest "$@"
 if [ -f $FOAM_FOAMUT/tests/adaptiveFvMeshTests/log.wmake ]; then cat $FOAM_FOAMUT/tests/adaptiveFvMeshTests/log.wmake; fi 
 ```
+
+
+
+### WENOExt
+
+**Note:** The WENOExt dockerfile will download and install WENOExt but not execute tests. This is due to one multicore test which requires at least 8 mpi slots**
+
+To build the docker container execute:
+```
+docker build --build-arg OPENFOAM_VERSION=2206 -f weno.dockerfile -t of-unit-testing-paper:weno-2206
+```
+
+
+Start the docker container in an interactive session:
+```bash
+docker run -it --rm of-unit-testing-paper:weno-2206 bash
+```
+Inside the container navigate to the WENOExt tests folder and execute the runTest command
+```
+cd /home/openfoam/WENOExt/tests && ./runTest
+```
+This will run the most important unit and integration tests of WENOExt. There is also the option 
+to run all tests with: 
+```
+cd /home/openfoam/WENOExt/tests && ./runTest --runAll
+```
+
+
+

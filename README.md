@@ -8,7 +8,7 @@ in Docker swarms and communicate through SSH and MPI.
 |-----------------------------------------------|-------------|
 | [base.dockerfile](docker/base.dockerfile)     | Base image for OpenFOAM and MPI. |
 | [foamut.dockerfile](docker/foamut.dockerfile) | Image for [foamUT](https://github.com/FoamScience/foamUT) and [blastAMR](https://github.com/STFS-TUDa/blastAMR).|
-| [obr.dockerfile](docker/obr.dockerfile)       | Image for [OBR](). |
+| [obr.dockerfile](docker/ogl_obr.dockerfile)   | Image for [OBR](). |
 | [weno.dockerfile](docker/weno.dockerfile)     | Image for [WENOExt](https://github.com/WENO-OF/WENOEXT). |
 
 To build the base image (inside the [docker](docker) folder):

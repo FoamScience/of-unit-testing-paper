@@ -8,7 +8,7 @@ in Docker swarms and communicate through SSH and MPI.
 |-----------------------------------------------|-------------|
 | [base.dockerfile](docker/base.dockerfile)     | Base image for OpenFOAM and MPI. |
 | [foamut.dockerfile](docker/foamut.dockerfile) | Image for [foamUT](https://github.com/FoamScience/foamUT) and [blastAMR](https://github.com/STFS-TUDa/blastAMR).|
-| [obr.dockerfile](docker/ogl_obr.dockerfile)   | Image for [OBR](https://github.com/hpsim/OBR). |
+| [obr.dockerfile](docker/ogl_obr.dockerfile)   | Image for [OGL](https://github.com/hpsim/OGL) and [OBR](https://github.com/hpsim/OBR). |
 | [weno.dockerfile](docker/weno.dockerfile)     | Image for [WENOExt](https://github.com/WENO-OF/WENOEXT). |
 
 To build the base image (inside the [docker](docker) folder):
@@ -25,6 +25,7 @@ Here is a list of published images you can immediately use:
 - [of-unit-testing-paper:base-2206](https://github.com/FoamScience/of-unit-testing-paper/pkgs/container/of-unit-testing-paper/184606004?tag=base-2206)
 - [of-unit-testing-paper:foamut-2206](https://github.com/FoamScience/of-unit-testing-paper/pkgs/container/of-unit-testing-paper/184608592?tag=foamut-2206)
 - [of-unit-testing-paper:weno-2206](https://github.com/FoamScience/of-unit-testing-paper/pkgs/container/of-unit-testing-paper/184671721?tag=weno-2206)
+- [of-unit-testing-paper:ogl_obr-2206](https://github.com/FoamScience/of-unit-testing-paper/pkgs/container/of-unit-testing-paper/185944382?tag=ogl_obr-2206)
 
 ## General Notes on the images
 
@@ -43,6 +44,10 @@ Here is a list of published images you can immediately use:
 
 ### blastAMR and foamUT
 
+Start the docker container in an interactive session:
+```bash
+docker run -it --rm ghcr.io/foamscience/of-unit-testing-paper:foamut-2206 bash
+```
 To test out `foamUT`, you can just `cd /home/openfoam/foamUT && ./Alltest`.
 
 To run unit tests for `blastAMR`, you can do the following:
@@ -71,7 +76,9 @@ if [ -f $FOAM_FOAMUT/tests/adaptiveFvMeshTests/log.wmake ]; then cat $FOAM_FOAMU
 
 ### WENOExt
 
-**Note:** The WENOExt dockerfile will download and install WENOExt but not execute tests. This is due to one multicore test which requires at least 8 mpi slots**
+> [!IMPORTANT]
+> The WENOExt container has WENOExt installed but no tests are executed during the building phase.
+> This is due to one multicore test which requires at least 8 mpi slots**
 
 Start the docker container in an interactive session:
 ```bash
@@ -88,11 +95,18 @@ to run all tests with:
 ```
 
 ### OGL/OBR
-This section contains details of the docker file for the [OGL](https://github.com/hpsim/OGL) integration tests with [OBR](https://github.com/OBR).
 
-**Note:** The docker file builds the complete workflow, including running the integration tests and doing data validation.
-The complete integration test folder can be found in the docker container under `$HOME/OGL_integration_tests`. The folder contains a workspace folder with the integration test cases identified by a UID. Additionally, a view folder with descriptive names of the test cases and symlinks to the original workspace folder is present. The view is structured is shown below
+> [!IMPORTANT]
+> The pre-built image goes through the complete workflow, including running the integration tests and doing data validation.
+> The complete integration test folder can be found in the docker container under `$HOME/OGL_integration_tests`.
 
+Start the docker container in an interactive session:
+```bash
+docker run -it --rm ghcr.io/foamscience/of-unit-testing-paper:ogl_obr-2206 bash
+```
+The folder contains a workspace folder with the integration test cases identified by a UID.
+Additionally, a view folder with descriptive names of the test cases and symlinks to the original
+workspace folder is present. The view is structured as shown below
 ```
 view/
 `-- base

@@ -98,12 +98,14 @@ to run all tests with:
 
 > [!IMPORTANT]
 > The pre-built image goes through the complete workflow, including running the integration tests and doing data validation.
-> The complete integration test folder can be found in the docker container under `$HOME/OGL_integration_tests`.
 
 Start the docker container in an interactive session:
 ```bash
 docker run -it --rm ghcr.io/foamscience/of-unit-testing-paper:ogl_obr-2206 bash
 ```
+
+The complete integration test folder can be found in the docker container under `$HOME/OGL_integration_tests`.
+
 The folder contains a workspace folder with the integration test cases identified by a UID.
 Additionally, a view folder with descriptive names of the test cases and symlinks to the original
 workspace folder is present. The view is structured as shown below

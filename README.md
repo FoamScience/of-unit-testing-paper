@@ -151,6 +151,6 @@ obr query \
     --filter global!=ready \
     --validate_against=$HOME/OGL/test/validation.json
 ```
-In this example the `continuityErrors` and the `CourantNumber` are validated against requirements specified in validation.json file. The `--filter global!=ready` tells obr to perform data validation for all case that are run and are thus not in the state ready anymore. If the validation fails for any test case, obr will exit with a non-zero exit.
+In this example the `continuityErrors` and the `CourantNumber` are validated against requirements specified in `validation.json` file. The `--filter global!=ready` tells obr to perform data validation for all case that are run and are thus not in the state ready anymore. If the validation fails for any test case, obr will exit with a non-zero exit.
 
 If one desires to rerun the test cases, one can use  `obr reset --case` to reset the workspace followed by `obr run -o runParallelSolver`. **Warning** Rerunning the integration tests can be very time consuming (approx 1h). This will create a new set of log files which can again be validated  with the obr query command.

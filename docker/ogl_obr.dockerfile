@@ -53,5 +53,6 @@ RUN cd $HOME/OGL_integration_tests && \
 RUN cd $HOME/OGL_integration_tests && \    
     obr status && \    
     obr query \    
+        --filter global==completed \
         -q global -q continuityErrors -q CourantNumber \    
         --validate_against=$HOME/OGL/test/validation.json

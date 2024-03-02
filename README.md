@@ -90,7 +90,8 @@ to run all tests with:
 ### OGL/OBR
 This section contains details of the docker file for the [OGL](https://github.com/hpsim/OGL) integration tests with [OBR](https://github.com/OBR).
 
-**Note:** The docker file builds the complete workflow, including running the integration tests and doing data validation. The complete integration test folder can be found under `$HOME/OGL_integration_tests`. The folder contains a workspace folder with the integration test cases identified by a UID and a view folder with descriptive names of the test cases and symlinks to the original workspace folder. The view is structured as follows, with different subfolders representing different parameter variations.  
+**Note:** The docker file builds the complete workflow, including running the integration tests and doing data validation.
+The complete integration test folder can be found in the docker container under `$HOME/OGL_integration_tests`. The folder contains a workspace folder with the integration test cases identified by a UID. Additionally, a view folder with descriptive names of the test cases and symlinks to the original workspace folder is present. The view is structured is shown below
 
 ```
 view/
@@ -124,13 +125,15 @@ view/
             |-- GISAI -> ../../../../workspace/7d9204b713b87cdeb3681a68cb358a6f
             `-- ILU -> ../../../../workspace/e13b57a14604fc4bf9a637bc14cbd98f
 ```
+Here the  different subfolders represent different parameter variations.  
 
-Data validation is done with the following command. In this example the `continuityErrors` and the `CourntNumber` are validated against requirements specified in validation.json file.  
+Data validation is done with the following command.   
 
 ```
 obr query \
     -q global -q continuityErrors -q CourantNumber \
     --validate_against=$HOME/OGL/test/validation.json
 ```
+In this example the `continuityErrors` and the `CourantNumber` are validated against requirements specified in validation.json file.
 
-If one desires to rerun the test cases, one can use  `obr reset --case` to reset the workspace followedby `obr run -o runParallelSolver`. This will create a new set of log files which can again be validate  with the obr query command.
+If one desires to rerun the test cases, one can use  `obr reset --case` to reset the workspace followed by `obr run -o runParallelSolver`. **Warning** Rerunning the integration tests can be very time consuming (approx 1h). This will create a new set of log files which can again be validate  with the obr query command.

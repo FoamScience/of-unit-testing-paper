@@ -40,19 +40,18 @@ RUN mkdir -p $HOME/OGL_integration_tests &&  cd $_ && \
                            
     
 # Execute all unit test cases                                                                                                                              
+# Execute all unit test cases    
 # this might take a while since we set the debug flag    
-RUN obr run -o runParallelSolver    
-    
-# After running the test cases one can validate if the results are reasonable     
+RUN cd $HOME/OGL_integration_tests && \       
+    source /usr/lib/openfoam/openfoam2206/etc/bashrc && \    
+    obr run -o runParallelSolver              
+                                              
+# After running the test cases one can validate if the results     
+# are reasonable                              
 # in our CI/CD setup we do it by filtering different cases for a detailed example see    
 # https://github.com/hpsim/OGL/blob/dev/.github/workflows/integration-tests.yml    
-# Here only a subset is validated.
-# The -q <flag> sets what to validate ie the continuity errors, CourantNumber etc
-# the --validate_against=<path_to_file> defines the file with validation criteria using json_schema
-RUN obr status && \
-    obr query \
-        -q global -q continuityErrors -q CourantNumber \
-        --filter preconditioner==none \
-        --filter matrixFormat==Coo \
-        --filter global==completed \
+RUN cd $HOME/OGL_integration_tests && \    
+    obr status && \    
+    obr query \    
+        -q global -q continuityErrors -q CourantNumber \    
         --validate_against=$HOME/OGL/test/validation.json

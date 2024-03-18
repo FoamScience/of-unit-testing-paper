@@ -24,3 +24,5 @@ RUN git clone ${FOAM_UT_REPO} ${HOME}/foamUT \
 RUN git clone ${BLASTAMR_REPO} ${HOME}/blastAMR \
     && cd ${HOME}/blastAMR && git checkout ${BLASTAMR_COMMIT} \
     && bash -c 'source /usr/lib/openfoam/openfoam${OPENFOAM_VERSION}/etc/bashrc && ./Allwmake'
+
+COPY foamut.alltest ${HOME}/foamut.alltest

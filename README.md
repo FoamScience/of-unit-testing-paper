@@ -23,7 +23,7 @@ The same applies to the other images; instead of `base`, use either `foamut`, `o
 
 Here is a list of published images you can immediately use:
 - [of-unit-testing-paper:base-2206](https://github.com/FoamScience/of-unit-testing-paper/pkgs/container/of-unit-testing-paper/184606004?tag=base-2206)
-- [of-unit-testing-paper:foamut-2206](https://github.com/FoamScience/of-unit-testing-paper/pkgs/container/of-unit-testing-paper/184608592?tag=foamut-2206)
+- [of-unit-testing-paper:foamut-2206](https://github.com/FoamScience/of-unit-testing-paper/pkgs/container/of-unit-testing-paper/192371771?tag=foamut-2206)
 - [of-unit-testing-paper:weno-2206](https://github.com/FoamScience/of-unit-testing-paper/pkgs/container/of-unit-testing-paper/184671721?tag=weno-2206)
 - [of-unit-testing-paper:ogl_obr-2206](https://github.com/FoamScience/of-unit-testing-paper/pkgs/container/of-unit-testing-paper/185944382?tag=ogl_obr-2206)
 
@@ -50,28 +50,9 @@ docker run -it --rm ghcr.io/foamscience/of-unit-testing-paper:foamut-2206 bash
 ```
 To test out `foamUT`, you can just `cd /home/openfoam/foamUT && ./Alltest`.
 
-To run unit tests for `blastAMR`, you can do the following:
+To run unit tests for `blastAMR`, you can run the provided BASH script:
 ```bash
-(openfoam@container)> cd ~/blastAMR
-# create a test file with steps from the Github actions, see bellow
-(openfoam@container)> vim Alltest
-# Run the test file
-(openfoam@container)> export FOAM_FOAMUT=/home/openfoam/foamUT
-(openfoam@container)> ./Alltest
-```
-where `Alltest` is a BASH file with the following content (extracted from the Github action workflows):
-```bash
-#!/usr/bin/bash
-mkdir -p $FOAM_USER_LIBBIN
-./Allwmake
-sed -i 's/mpirun/mpirun --oversubscribe/g' $FOAM_FOAMUT/Alltest
-ln -s "$PWD"/tests/adaptiveFvMeshTests "$FOAM_FOAMUT/tests/adaptiveFvMeshTests"
-rm -rf "$FOAM_FOAMUT/cases"
-cp -r tests/testCases "$FOAM_FOAMUT/cases"
-cd $FOAM_FOAMUT || exit 1
-rm -rf tests/exampleTests
-./Alltest "$@"
-if [ -f $FOAM_FOAMUT/tests/adaptiveFvMeshTests/log.wmake ]; then cat $FOAM_FOAMUT/tests/adaptiveFvMeshTests/log.wmake; fi 
+(openfoam@container)> ./foamut.alltests
 ```
 
 ### WENOExt

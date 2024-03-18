@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+cd /home/openfoam/blastAMR
+export FOAM_FOAMUT=/home/openfoam/foamUT
+mkdir -p "$FOAM_USER_LIBBIN"
+./Allwmake
+sed -i 's/mpirun/mpirun --oversubscribe/g' $FOAM_FOAMUT/Alltest
+ln -s "$PWD"/tests/adaptiveFvMeshTests "$FOAM_FOAMUT/tests/adaptiveFvMeshTests"
+rm -rf "$FOAM_FOAMUT/cases"
+cp -r tests/testCases "$FOAM_FOAMUT/cases"
+cd $FOAM_FOAMUT || exit 1
+rm -rf tests/exampleTests
+./Alltest "$@"
+if [ -f $FOAM_FOAMUT/tests/adaptiveFvMeshTests/log.wmake ]; then cat $FOAM_FOAMUT/tests/adaptiveFvMeshTests/log.wmake; fi 

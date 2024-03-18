@@ -52,7 +52,7 @@ To test out `foamUT`, you can just `cd /home/openfoam/foamUT && ./Alltest`.
 
 To run unit tests for `blastAMR`, you can run the provided BASH script:
 ```bash
-(openfoam@container)> ./foamut.alltests
+(openfoam@container)> ./foamut.alltest
 ```
 
 ### WENOExt
